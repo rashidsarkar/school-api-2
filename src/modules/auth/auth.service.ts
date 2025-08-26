@@ -66,7 +66,7 @@ const refreshToken = async (token: string) => {
       role: userData.role,
     },
     process.env.ACCESS_TOKEN_SECRET as string,
-    "15m"
+    "50m"
   );
   return { accessToken };
 };

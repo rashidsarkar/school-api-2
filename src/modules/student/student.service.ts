@@ -4,26 +4,36 @@ import prisma from "../../shared/prisma";
 const getAllStudent = async (params: any) => {
   const { searchTerm } = params;
   const andConditions: Prisma.StudentWhereInput[] = [];
+
+  // [
+  //         {
+  //           user: {
+  //             name: {
+  //               contains: searchTerm,
+  //               mode: "insensitive",
+  //             },
+  //           },
+  //         },
+  //         {
+  //           user: {
+  //             email: {
+  //               contains: searchTerm,
+  //               mode: "insensitive",
+  //             },
+  //           },
+  //         },
+  //       ],
+
   if (searchTerm) {
     andConditions.push({
-      OR: [
-        {
-          user: {
-            name: {
-              contains: searchTerm,
-              mode: "insensitive",
-            },
+      OR: ["name", "email"].map((field) => ({
+        user: {
+          [field]: {
+            contains: searchTerm,
+            mode: "insensitive",
           },
         },
-        {
-          user: {
-            email: {
-              contains: searchTerm,
-              mode: "insensitive",
-            },
-          },
-        },
-      ],
+      })),
     });
   }
   const whereCondition: Prisma.StudentWhereInput = { AND: andConditions };
