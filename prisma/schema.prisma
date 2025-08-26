@@ -29,15 +29,20 @@ model User {
   isDeleted     Boolean  @default(false)
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
+  Student       Student?
 
   @@map("users")
 }
 
 model Student {
-  id         String   @id @default(uuid())
-  name       String
-  age        Int
-  class_id   String?
+  id       String  @id @default(uuid())
+  age      Int
+  class_id String?
+  userId   String  @unique
+
+  user  User   @relation(fields: [userId], references: [id])
+  class Class? @relation(fields: [class_id], references: [id])
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -45,11 +50,12 @@ model Student {
 }
 
 model Class {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   name       String
   section    String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  Student    Student[]
 
   @@map("classes")
 }
