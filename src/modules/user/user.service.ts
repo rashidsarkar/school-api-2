@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import { CreateStudentInput } from "../../types/CreateStudentInput";
 import { AppError } from "../../utils/AppError";
 
-const createUser = async (data: User & CreateStudentInput) => {
+const createAdminAndTeacher = async (data: User) => {
   const hashedPassword = await bcrypt.hash(data.password_hash, 10);
   const userData = {
     name: data.name,
@@ -26,15 +26,6 @@ const createUser = async (data: User & CreateStudentInput) => {
       case Role.TEACHER:
         await transactionClient.teacher.create({ data: { userId: user.id } });
         break;
-      case Role.STUDENT:
-        await transactionClient.student.create({
-          data: {
-            age: data.age,
-            class_id: data.class_id,
-            userId: user.id,
-          },
-        });
-        break;
       default:
         throw new AppError("Invalid role", 400);
     }
@@ -52,7 +43,6 @@ const createUser = async (data: User & CreateStudentInput) => {
     return transactionClient.user.findUnique({
       where: { id: user.id },
       include: {
-        Student: true,
         Admin: true,
         Teacher: true,
       },
@@ -62,4 +52,41 @@ const createUser = async (data: User & CreateStudentInput) => {
   return result;
 };
 
-export const userService = { createUser };
+const createStudent = async (data: CreateStudentInput) => {
+  const hashedPassword = await bcrypt.hash(data.password_hash, 10);
+  const studentData = {
+    name: data.name,
+    email: data.email,
+    password_hash: hashedPassword,
+    role: Role.STUDENT,
+  };
+
+  const result = await prisma.$transaction(async (transactionClient) => {
+    const user = await transactionClient.user.create({
+      data: studentData,
+    });
+    const createStudent = await transactionClient.student.create({
+      data: {
+        age: data.age,
+        class_id: data.class_id,
+        userId: user.id,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            isDeleted: true,
+          },
+        },
+      },
+    });
+    return createStudent;
+  });
+
+  return result;
+};
+
+export const userService = { createAdminAndTeacher, createStudent };

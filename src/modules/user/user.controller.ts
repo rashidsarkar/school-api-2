@@ -13,5 +13,15 @@ const createUser = catchAsync(async (req, res) => {
     data: { ...result, password_hash: undefined },
   });
 });
+const createStudent = catchAsync(async (req, res) => {
+  const result = await userService.createStudent(req.body);
 
-export const userController = { createUser };
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    success: true,
+    message: "Student created successfully",
+    data: { ...result, password_hash: undefined },
+  });
+});
+
+export const userController = { createUser, createStudent };
