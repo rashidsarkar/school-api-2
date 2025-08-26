@@ -1,9 +1,13 @@
+import status from "http-status";
 import catchAsync from "../../shared/catchasync";
+import { sendResponse } from "../../utils/sendResponse";
 import { userService } from "./user.service";
 
 const createUser = catchAsync(async (req, res) => {
   const result = await userService.createUser(req.body);
-  res.status(200).json({
+
+  sendResponse(res, {
+    statusCode: status.CREATED,
     success: true,
     message: "User created successfully",
     data: { ...result, password_hash: undefined },
