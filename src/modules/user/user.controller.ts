@@ -1,13 +1,13 @@
 import catchAsync from "../../shared/catchasync";
 import { userService } from "./user.service";
 
-const createStudent = catchAsync(async (req, res) => {
-  const result = await userService.createStudent(req.body);
+const createUser = catchAsync(async (req, res) => {
+  const result = await userService.createUser(req.body);
   res.status(200).json({
     success: true,
-    message: "Student created successfully",
-    data: result,
+    message: "User created successfully",
+    data: { ...result, password_hash: undefined },
   });
 });
 
-export const userController = { createStudent };
+export const userController = { createUser };
