@@ -3,21 +3,22 @@ import { userController } from "./user.controller";
 import validateRequest from "../../middleware/validatedRequest";
 import { userValidation } from "./user.validation";
 import { Role } from "@prisma/client";
+import { verifyToken } from "../../utils/generateToken";
+import config from "../../config";
+import { AppError } from "../../utils/AppError";
+import { auth } from "../../middleware/auth";
 
 const router = express.Router();
 
-const auth = (...roles: string[]) => {
-  return async (req: Request, res: Response, next: NextFunction) => {};
-};
-
 router.post(
   "/",
-  auth(Role.ADMIN, Role.STUDENT),
+  auth(Role.ADMIN),
   validateRequest(userValidation.createUserSchema),
   userController.createUser
 );
 router.post(
   "/create-student",
+  auth(Role.ADMIN),
   validateRequest(userValidation.createUserSchema),
   userController.createStudent
 );

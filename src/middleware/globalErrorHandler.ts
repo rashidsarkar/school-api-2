@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import status from "http-status";
+import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import { ZodError } from "zod";
 
 const globalErrorHandler = (
@@ -45,6 +46,12 @@ const globalErrorHandler = (
       path: issue.path.join("."),
       message: issue.message,
     }));
+  } else if (err instanceof TokenExpiredError) {
+    statusCode = status.UNAUTHORIZED;
+    message = "Token expired";
+  } else if (err instanceof JsonWebTokenError) {
+    statusCode = status.UNAUTHORIZED;
+    message = "Invalid token";
   }
 
   // ✅ Custom Error (with statusCode and message)
