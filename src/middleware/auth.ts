@@ -14,7 +14,7 @@ export const auth = (...roles: string[]) => {
         token as string,
         config.accessTokenSecret as string
       );
-      console.log(verifiedUser);
+      // console.log(verifiedUser);
 
       if (roles.length && !roles.includes(verifiedUser.role)) {
         return next(new AppError("Forbidden", 403));

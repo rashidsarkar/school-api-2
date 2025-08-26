@@ -1,7 +1,34 @@
+import { Prisma } from "@prisma/client";
 import prisma from "../../shared/prisma";
 
-const getAllStudent = async () => {
+const getAllStudent = async (params: any) => {
+  const { searchTerm } = params;
+  const andConditions: Prisma.StudentWhereInput[] = [];
+  if (searchTerm) {
+    andConditions.push({
+      OR: [
+        {
+          user: {
+            name: {
+              contains: searchTerm,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          user: {
+            email: {
+              contains: searchTerm,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
+    });
+  }
+  const whereCondition: Prisma.StudentWhereInput = { AND: andConditions };
   const result = await prisma.student.findMany({
+    where: whereCondition,
     include: {
       user: {
         select: {
