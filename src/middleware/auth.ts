@@ -6,7 +6,7 @@ import config from "../config";
 export const auth = (...roles: string[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const token = req.headers.authorization?.split(" ")[1];
+      const token = req.headers.authorization;
       if (!token) {
         return next(new AppError("Unauthorized", 401));
       }
@@ -14,10 +14,12 @@ export const auth = (...roles: string[]) => {
         token as string,
         config.accessTokenSecret as string
       );
+      console.log(verifiedUser);
 
       if (roles.length && !roles.includes(verifiedUser.role)) {
         return next(new AppError("Forbidden", 403));
       }
+
       next();
     } catch (error) {
       next(error);
