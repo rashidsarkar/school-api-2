@@ -1,8 +1,8 @@
-# Bike Servicing Management System
+# School Management System
 
-A complete backend solution for managing bike servicing records, customers, and service statuses. This system helps you maintain a seamless workflow for registering bikes, tracking service records, updating statuses, and managing customer information.
+A complete backend solution for managing users, students, classes, and authentication. This system allows administrators and teachers to manage student data, enroll students into classes, and handle secure authentication with role-based access.
 
-🔗 **Live Backend**: [https://bike-servicing-management-a8-fwq1.vercel.app/](https://bike-servicing-management-a8-fwq1.vercel.app/)
+🔗 **Live Backend**: _((https://school-server-rosy.vercel.app/))_
 
 ---
 
@@ -15,7 +15,7 @@ A complete backend solution for managing bike servicing records, customers, and 
 - **PostgreSQL** – Database (can be replaced with other relational DBs)
 - **Zod** – Request validation
 - **HTTP-Status** – Status code management
-- **JWT** – For future authentication
+- **JWT** – Authentication and authorization
 - **Cookie-Parser, CORS** – Middleware
 
 ---
@@ -25,8 +25,8 @@ A complete backend solution for managing bike servicing records, customers, and 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/bike-servicing-management-a8.git
-   cd bike-servicing-management-a8
+   git clone https://github.com/yourusername/school-management-system.git
+   cd school-management-system
    ```
 
 2. **Install dependencies**
@@ -36,10 +36,12 @@ A complete backend solution for managing bike servicing records, customers, and 
    ```
 
 3. **Setup environment variables**
-   Create a `.env` file with your database URL:
+
+   Create a `.env` file:
 
    ```env
    DATABASE_URL=your_postgresql_connection_string
+   JWT_SECRET=your_jwt_secret
    ```
 
 4. **Run Prisma migrations**
@@ -49,6 +51,7 @@ A complete backend solution for managing bike servicing records, customers, and 
    ```
 
 5. **Start the development server**
+
    ```bash
    npm run dev
    ```
@@ -57,29 +60,35 @@ A complete backend solution for managing bike servicing records, customers, and 
 
 ## ✨ Key Features
 
-- **Customer Management**
+- **User Management**
 
-  - Create, update, delete, and fetch customer info
+  - Create users with roles (Admin, Teacher)
+  - Role-based access control for endpoints
 
-- **Bike Management**
+- **Student Management**
 
-  - Register bikes, view all bikes, or get specific bike info
+  - Add, update, delete, and fetch students
+  - Admin and Teacher can view all students
 
-- **Service Record Handling**
+- **Class Management**
 
-  - Add service records, fetch all or specific records
-  - Update service status (e.g., mark as complete)
+  - Create classes, enroll students
+  - Fetch all students in a specific class
 
-- **Overdue Services Checker**
+- **Authentication**
 
-  - Get services with pending or in-progress status beyond 7 days
+  - Login with JWT
+  - Token refresh functionality
+  - Middleware for role-based authorization
 
-- **Validation**
+- **Validation & Error Handling**
 
-  - Uses Zod for input validation
+  - Zod for request validation
+  - Global error handling for Prisma, JWT, Zod, and custom errors
 
-- **Structured Response**
-  - All API responses follow a standard structure
+- **Structured API Response**
+
+  - Standardized responses for success and error
 
 ---
 
@@ -87,13 +96,42 @@ A complete backend solution for managing bike servicing records, customers, and 
 
 ```bash
 src
-├── modules
-│   ├── bike
-│   ├── customer
-│   └── service
 ├── middleware
+│   ├── globalErrorHandler.ts
+│   └── validatedRequest.ts
+├── modules
+│   ├── auth
+│   │   ├── auth.controller.ts
+│   │   ├── auth.routes.ts
+│   │   ├── auth.service.ts
+│   │   └── auth.validation.ts
+│   ├── classes
+│   │   ├── class.controller.ts
+│   │   ├── class.route.ts
+│   │   ├── class.service.ts
+│   │   └── class.validation.ts
+│   ├── student
+│   │   ├── student.constant.ts
+│   │   ├── student.controller.ts
+│   │   ├── student.route.ts
+│   │   └── student.service.ts
+│   └── user
+│       ├── user.controller.ts
+│       ├── user.route.ts
+│       ├── user.service.ts
+│       └── user.validation.ts
+├── routes
+│   └── index.ts
 ├── shared
+│   ├── catchasync.ts
+│   ├── pick.ts
+│   └── prisma.ts
+├── types
 ├── utils
+│   ├── AppError.ts
+│   ├── generateToken.ts
+│   └── sendResponse.ts
+├── app.ts
 └── server.ts
 ```
 
@@ -101,11 +139,10 @@ src
 
 ## 🔮 Future Improvements
 
-- Add user authentication with roles (admin/user)
-- Paginate and search endpoints
+- Add pagination and search endpoints
 - Unit and integration testing
-- Add Swagger/OpenAPI documentation
-- Frontend integration (optional React app)
+- Swagger/OpenAPI documentation
+- Frontend integration (React/Next.js app)
 
 ---
 

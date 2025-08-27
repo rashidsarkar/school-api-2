@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const http_status_1 = __importDefault(require("http-status"));
+const jsonwebtoken_1 = require("jsonwebtoken");
 const zod_1 = require("zod");
 const globalErrorHandler = (err, req, res, next) => {
     // console.log(err);
@@ -41,6 +42,14 @@ const globalErrorHandler = (err, req, res, next) => {
             path: issue.path.join("."),
             message: issue.message,
         }));
+    }
+    else if (err instanceof jsonwebtoken_1.TokenExpiredError) {
+        statusCode = http_status_1.default.UNAUTHORIZED;
+        message = "Token expired";
+    }
+    else if (err instanceof jsonwebtoken_1.JsonWebTokenError) {
+        statusCode = http_status_1.default.UNAUTHORIZED;
+        message = "Invalid token";
     }
     // ✅ Custom Error (with statusCode and message)
     else if (err.statusCode && err.message) {

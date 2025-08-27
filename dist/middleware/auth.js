@@ -12,14 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = __importDefault(require("./app"));
-const config_1 = __importDefault(require("./config"));
-const port = config_1.default.port;
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const server = app_1.default.listen(port, () => {
-            console.log(`server is running on port ${port}`);
-        });
+exports.auth = void 0;
+const AppError_1 = require("../utils/AppError");
+const generateToken_1 = require("../utils/generateToken");
+const config_1 = __importDefault(require("../config"));
+const auth = (...roles) => {
+    return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const token = req.headers.authorization;
+            if (!token) {
+                return next(new AppError_1.AppError("Unauthorized", 401));
+            }
+            const verifiedUser = (0, generateToken_1.verifyToken)(token, config_1.default.accessTokenSecret);
+            // console.log(verifiedUser);
+            if (roles.length && !roles.includes(verifiedUser.role)) {
+                return next(new AppError_1.AppError("Forbidden", 403));
+            }
+            next();
+        }
+        catch (error) {
+            next(error);
+        }
     });
-}
-main();
+};
+exports.auth = auth;

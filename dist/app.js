@@ -16,10 +16,10 @@ app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
     res.send({
-        Message: "Bike Servicing Server Start",
+        Message: "School  Server Start",
     });
 });
-app.use("/api/", routers_1.default);
+app.use("/api/v1/", routers_1.default);
 app.use(globalErrorHandler_1.default);
 app.use((req, res, next) => {
     res.status(http_status_1.default.NOT_FOUND).json({
