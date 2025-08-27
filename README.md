@@ -2,7 +2,9 @@
 
 A complete backend solution for managing users, students, classes, and authentication. This system allows administrators and teachers to manage student data, enroll students into classes, and handle secure authentication with role-based access.
 
-🔗 **Live Backend**: _((https://school-server-rosy.vercel.app/))_
+🔗 **Live Backend**: [https://school-server-rosy.vercel.app/](https://school-server-rosy.vercel.app/)
+
+📬 **Postman Workspace**: [Rashid's Workspace](https://rashid-7232251.postman.co/workspace/Rashid's-Workspace~5ef6ec7d-497d-4ef1-859f-ed5e465401d7/request/47916361-50e7d4c7-5450-4c17-9387-739397a54241?action=share&creator=47916361&ctx=documentation&active-environment=47916361-e366c38a-2741-46ea-94e3-4a7b42d2a286)
 
 ---
 
