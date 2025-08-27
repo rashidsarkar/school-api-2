@@ -2,10 +2,15 @@ import status from "http-status";
 import catchAsync from "../../shared/catchasync";
 import { studentService } from "./student.service";
 import { sendResponse } from "../../utils/sendResponse";
+import { pick } from "../../shared/pick";
+import { studentFilterableFields } from "./student.constant";
 
 const getAllStudent = catchAsync(async (req, res) => {
-  // console.log(req.query.searchTerm);
-  const result = await studentService.getAllStudent(req.query);
+  const filter = pick(req.query, studentFilterableFields);
+  const options = pick(req.query, ["page", "limit", "sortOrder"]);
+
+  console.log(options, "sa");
+  const result = await studentService.getAllStudent(filter, options);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
