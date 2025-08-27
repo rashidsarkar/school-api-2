@@ -4,7 +4,7 @@ A complete backend solution for managing users, students, classes, and authentic
 
 🔗 **Live Backend**: [https://school-server-rosy.vercel.app/](https://school-server-rosy.vercel.app/)
 
-📬 **Postman Workspace**: [Rashid's Workspace](https://rashid-7232251.postman.co/workspace/Rashid's-Workspace~5ef6ec7d-497d-4ef1-859f-ed5e465401d7/request/47916361-50e7d4c7-5450-4c17-9387-739397a54241?action=share&creator=47916361&ctx=documentation&active-environment=47916361-e366c38a-2741-46ea-94e3-4a7b42d2a286)
+📬 **Postman Workspace**: [Rashid's Workspace](https://rashid-7232251.postman.co/workspace/Rashid's-Workspace~5ef6ec7d-497d-4ef1-859f-ed5e465401d7/collection/47916361-574bb699-8381-43b9-b76c-a992eaad22f8?action=share&creator=47916361&active-environment=47916361-e366c38a-2741-46ea-94e3-4a7b42d2a286)
 
 ---
 
