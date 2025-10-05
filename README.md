@@ -144,7 +144,7 @@ src
 - Add pagination and search endpoints
 - Unit and integration testing
 - Swagger/OpenAPI documentation
-- Frontend integration (React/Next.js app)
+- Frontend integration (Next.js app)
 
 ---
 
